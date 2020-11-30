@@ -1,0 +1,277 @@
+= Test de Performance/JMeter
+:icons: font
+:twitter-tag:
+:conference-tag:
+:talk-tag: Intro JMeter
+:linkattrs:
+ifndef::partials[:partials: partials]
+
+include::{partials}/footer.ad[]
+
+== !
+
+image::jmeter.png[background, size=auto]
+
+== ¿Qué es Computer Performance?
+
+Está caracterizado por la *cantidad de trabajo útil* realizado por un sistema comparado al *tiempo* y *recursos utilizados*.
+
+Es un requisito no funcional
+
+== ¿Problemas de performance?
+
+¿Añadir más Hardware?
+
+== Problemas de performance
+
+* Se pierde productividad
+* Se pierden clientes
+* Se pierden oportunidades de venta
+
+== Problemas de performance
+
+* Mayor costo de soporte
+* Costos indirectos
+* Pérdida de imagen y confianza
+
+== Pruebas de performance
+
+*¿Para qué sirven?*
+
+Simular situaciones de carga para conocer el desempeño del sistema
+
+== ¿Para qué nos sirven?
+
+* Verificar si el sistema soporta la carga esperada
+* Verificar si se cumplen acuerdos de nivel de servicio (SLA)
+* Detectar errores u oportunidades de mejora, que solamente son observables ante la concurrencia
+* Detectar bottle-necks
+
+== Objetivo
+
+* Asegurar satisfacción de los usuarios
+
+== Tipos de pruebas de performance
+
+* Pruebas de carga (load test)
+* Pruebas de estrés (stress test)
+* Pruebas de resistencia (endurance test)
+* Pruebas de escalabilidad
+
+== !
+
+image::why-perf-testing-is-nec-chart-768x463.png[background, size=auto]
+
+== ¿Cómo simulamos el uso real del sistema?
+* Manualmente
+* Usando herramientas
+
+== Testing de performance - Manual
+
+* Sin costo de herramientas
+* Real
+* ¿Tiempos de respuesta?
+* ¿Trazabilidad?
+
+== Testing de performance - Automático
+
+* Repetible
+* Controlado
+* Simulado
+* Aprendizaje
+* Costo de automatismo
+
+== Diseño de pruebas
+1. Definir objetivos del proyecto
+2. Diseñar casos de prueba
+3. Diseñar escenarios de carga
+4. Criterios de aceptación
+5. Determinar Infraestructura
+6. Datos de prueba
+
+== 1. Definir objetivos del proyecto
+
+* Nueva infraestructura
+** Cambiar a un servidor más potente
+** Nueva estructura de red
+* Nueva versión del sistema
+
+== 1. Definir objetivos del proyecto
+
+* Cambio de arquitectura
+** Migración de Win a Web
+* Ajuste de configuración
+** Tomcat, JVM, DBMS, balancing
+
+== 2. Casos de prueba
+* No existe el testing exhaustivo
+* Selección y diseño de casos de prueba (Costo/beneficio)
+
+== 2. Casos de prueba
+* Criterio de cobertura basado en riesgos
+** Intensivos en consumo de recursos
+** Riesgosos para la operativa de la empresa
+** Los más usados
+
+== 2. Casos de prueba
+* Diseño de un caso de prueba
+** Guion de prueba (pasos)
+** Datos de prueba
+** Validaciones (oráculo, resultado esperado)
+** Timing / think times
+
+== 3. Escenarios de carga
+* Determinar que carga se quiere simular (Modelado/Realidad)
+* En la realidad se dan distintos escenarios (Fechas especiales)
+* No existe prueba exhaustiva
+
+== 3. Escenarios de carga
+
+
+|===
+|Caso de prueba |# usuarios |# iteraciones por hora
+
+|TC_01: Alta producto
+|5
+|4
+
+|TC_02: Facturación
+|20
+|100
+|===
+
+== 4. Criterios de aceptación
+
+* Se ejecutarán pruebas hasta lograr que el sistema funcione en forma aceptable
+
+* Criterios
+** Tiempos de respuesta
+** Volumen de datos a procesar
+
+== 4. Criterios de aceptación
+
+* Tiempos de respuesta
+** Login en menos de 3 segundos
+** Caso de prueba de Extracción de Dinero a resolverse en menos de 35 segundos
+** La pantalla de inicio debe cargarse en 500ms
+
+== 4. Criterios de aceptación
+* Volumen de datos a procesar
+** Se deben procesar 720 facturas por hora
+** Todos los usuarios deben hacer login en 15s
+
+== 5. Infraestructura
+Debería ser el mismo Hardware de Producción, y el mismo Software de Base (versiones, configuración)
+
+== 5. Infraestructura
+
+* Dificultades:
+** Necesidad de un ambiente aislado
+** Generalmente hay otros que necesitan la infraestructura de producción
+* Últimos ajustes antes del go live
+* Pruebas funcionales
+* Migraciones
+
+== 6. Datos de prueba
+* Cantidad
+* Calidad
+* Datos confidenciales
+
+== 6. Datos de prueba
+
+* Desde base de datos existente
+** Enmascarar
+** Convertir
+** Duplicar
+
+== 6. Datos de prueba
+* Generación
+** Herramientas de generación de datos
+** Scripts de prueba
+** Programas específicos
+
+== 6. Datos de prueba
+* Cada prueba debería hacerse con los mismos datos
+* Como los datos se consumen
+** Establecer un estado inicial
+** Respaldarlo (backup de base de datos)
+** Script para cargar fácilmente esos datos
+
+== Automatizar
+
+1. Preparar guión detallado
+2. Grabar script
+3. Organizar script
+4. Parametrizar
+5. Ajustar comportamiento de usuarios
+6. Validaciones / captura de errores
+7. Probar los scripts
+
+== ¿Cuál es la diferencia con Selenium?
+
+== Ram-Up de usuarios
+* Los usuarios no ingresan todos al mismo tiempo al sistema
+* Tampoco están sincronizados
+* Es necesario ajustar la simulación del escenario para que esto no suceda
+* Diseñar un ramp-up
+
+== Monitorización
+* Hardware
+* Software de base
+* Herramientas para el test
+* Generación de carga
+* La misma monitorización
+* ¡Toda la infraestructura!
+
+== Monitorizar BD
+* Generalmente permiten obtener información para hacer optimizaciones
+* Acceso a disco
+* Listar las SQL que llevan más tiempo total
+** Analizar si se pueden poner en caché
+** Ver si se pueden optimizar
+
+== Recolectar y analizar datos
+
+* Es importante contar con todos los datos tanto del lado del cliente como del resto de la infraestructura
+* Prestar atención a los distintos datos
+* **El 20% de los datos nos da el 80% de la
+información.**
+
+== ¿Cómo solucionar problemas?
+* Reproducir el escenario
+* Observar qué está ocurriendo
+* Modificar las condiciones negativas
+* Repetir hasta alcanzar el rendimiento esperado
+
+== Gráficas
+* Analizar los resultados con gráficas
+* “Más vale gráficas que números y números que letras” - Scott Barber
+
+== Análisis de métricas
+* Buscar patrones de comportamiento
+* Correlaciones entre eventos
+
+== Errores comunes
+* A nivel de la base de datos
+* A nivel de sistema operativo
+* A nivel de la capa de aplicación
+* A nivel de hardware
+* ¡A nivel de la prueba!
+
+== Conclusiones
+* Trabajo interdisciplinario
+* Muchos roles
+** Infraestructura
+** Funcionales
+** Desarrollo
+
+== Conclusiones
+* Conveniente tener los test de performance en los planes de desarrollo, propuestas de servicio, etc.
+* Que no sea algo que se agrega cuando vemos que hay problemas evidentes.
+
+== Conclusiones
+* Podemos probar
+** Sobre el final: Cruzando los dedos, esperando que el paciente no esté muerto
+** Pruebas parciales durante el desarrollo: Anticipando problemas, Probando los módulos que estén listos, Pruebas de sistema completo, a nivel de unidad de código, método, SQL, etc.
+
+include::{partials}/self.ad[]
